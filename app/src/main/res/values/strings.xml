@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lab7</string>
+    <string name="new_pass">New Password</string>
+    <string name="confirm">Confirm Password</string>
+    <string name="save">save</string>
+    <string name="load">load</string>
+    <string name="clear">clear</string>
+    <string name="empty">Password cannot be empty</string>
+    <string name="mismatch">Password Mismatch</string>
+</resources>
