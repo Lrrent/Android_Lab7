@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 public class File extends AppCompatActivity {
     private EditText content;
     private Button save;
@@ -46,11 +49,15 @@ public class File extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String input = content.getText().toString();
-            Context context = getApplicationContext();
-            SharedPreferences sharedPreferences = context.getSharedPreferences("input_save",Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();  //声明editor对象来对SharePreferences进行修改
-            editor.putString("text_input",input); //将输入大的密码存入文件中
-            editor.apply();
+            String fileName = "saveContent";
+            FileOutputStream output;
+            try{
+                output = openFileOutput(fileName,Context.MODE_PRIVATE);
+                output.write(input.getBytes());
+                output.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             Toast.makeText(getApplication(),"Save successfuly",Toast.LENGTH_LONG).show();
             //Log.i("Save content", "onClick: ");
         }
@@ -58,15 +65,19 @@ public class File extends AppCompatActivity {
     private class load_listener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            SharedPreferences getShared = getSharedPreferences("input_save",MODE_PRIVATE);
-            Log.i(getShared.toString(), "onClick: ");
-            if (getShared == null){
-                Toast.makeText(getApplication(),"Fail to load file",Toast.LENGTH_LONG).show();
-            }
-            else{
-                final String answer = getShared.getString("text_input",null);
-                content.setText(answer);
+            FileInputStream inputfile;
+            String fileName = "saveContent";
+            try{
+                inputfile = openFileInput(fileName);
+                byte[] inputontent = new byte[inputfile.available()];
+                inputfile.read(inputontent);
+                String s = new String(inputontent);  //将byte数组转为String
+                content.setText(s);
                 Toast.makeText(getApplication(),"Load successfully",Toast.LENGTH_LONG).show();
+               // Log.i(s, "onClick:load ");
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(getApplication(),"Fail to load file",Toast.LENGTH_LONG).show();
             }
         }
     }

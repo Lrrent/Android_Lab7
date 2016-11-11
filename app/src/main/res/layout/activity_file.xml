@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:paddingTop="10dp">
-
+    <!--EditText输入光标默认为垂直居中,并靠左,此时要将光标移到最开始,只需要将gravity属性设置为start即可-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:id="@+id/content" />
+        android:id="@+id/content"
+        android:gravity="start"/>
 
     <LinearLayout
         android:layout_width="match_parent"
